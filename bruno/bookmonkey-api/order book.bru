@@ -1,0 +1,17 @@
+meta {
+  name: order book
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/books/{{mostRecentBookId}}/order
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "amountOrdered": 1001
+  }
+}

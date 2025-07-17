@@ -1,0 +1,11 @@
+script:pre-request {
+    await bru.sendRequest({
+      method: 'GET',
+      url: 'http://localhost:3000/books',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }, function (err, res) {
+      bru.setEnvVar("mostRecentBookId", res?.data?.[0]?.id);
+    });
+}
