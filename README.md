@@ -1,4 +1,4 @@
-<h1 align="center">Angular & TypeScript Intensive Training</h1>
+<h1 align="center">Nest.JS Intensive Training</h1>
 
 <p align="center">
   <img alt="workshops-de-logo-blue" src="docs/logo-workshops-de.png" width="120">
