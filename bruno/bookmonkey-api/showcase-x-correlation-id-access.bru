@@ -1,0 +1,17 @@
+meta {
+  name: showcase-x-correlation-id-access
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Response contains correlation-id for tracing", function () {
+    expect(res.getHeader('x-correlation-id')).to.not.be.empty;
+  });
+}
