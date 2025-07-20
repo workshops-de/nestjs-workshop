@@ -1,0 +1,26 @@
+meta {
+  name: create-book fail
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isbn": "978-283921-630",
+    "title": "NestJS - Our way to production",
+    "authors": ["Alan", ""],
+    "price": 52.95
+  }
+}
+
+tests {
+  test("POST book without authors, fails", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+}

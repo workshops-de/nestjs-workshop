@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { BookEntity } from './book/book.entity';
 import { DomainException } from './domain.exception';
+import { CreateBookDto } from './dtos/create-book.dto/create-book.dto';
 
 @Injectable()
 export class BooksService {
@@ -25,6 +26,14 @@ export class BooksService {
     const candidate = this.bookCollection.find(book => book.id === id) ?? null;
 
     return Promise.resolve(candidate);
+  }
+
+  async create(dto: CreateBookDto): Promise<BookEntity> {
+    const book = new BookEntity({ id: randomUUID(), ...dto, rating: 0, amount: dto.amount ?? 0 });
+
+    this.bookCollection.push(book);
+
+    return Promise.resolve(book);
   }
 
   order(bookToOrder: BookEntity, dto: { amountOrdered: number }) {
