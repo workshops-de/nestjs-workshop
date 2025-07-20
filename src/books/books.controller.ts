@@ -11,7 +11,7 @@ import {
 import { RequestValidationPipe } from '../request-validation/request-validation.pipe';
 import { BookEntity } from './book/book.entity';
 import { BooksService } from './books.service';
-import { CreateBookDto } from './dtos/create-book.dto/create-book.dto';
+import { CreateBookDto, CreateBookDtoSchema } from './dtos/create-book.dto/create-book.dto';
 
 @Controller('books')
 export class BooksController {
@@ -23,7 +23,7 @@ export class BooksController {
   }
 
   @Post()
-  @UsePipes(new RequestValidationPipe())
+  @UsePipes(new RequestValidationPipe(CreateBookDtoSchema))
   async create(@Body() dto: CreateBookDto): Promise<Pick<BookEntity, 'id'>> {
     const createdBook = await this.booksService.create(dto);
 

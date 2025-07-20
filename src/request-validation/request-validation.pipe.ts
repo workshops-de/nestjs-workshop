@@ -1,20 +1,18 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-import { EntityProperties } from '../core/types/entity-properties';
-import { BookEntity } from '../books/book/book.entity';
+import { z } from 'zod';
 
 @Injectable()
 export class RequestValidationPipe implements PipeTransform {
-  transform(props?: Partial<EntityProperties<BookEntity>>) {
-    if (!Array.isArray(props?.authors)) {
-      throw new BadRequestException('You must provide at least one `author`');
+  constructor(private schema: z.ZodSchema) {}
+
+  transform(value: unknown) {
+    const result = this.schema.safeParse(value);
+
+    if (result.success) {
+      return result.data;
     }
 
-    for (const author of props.authors) {
-      if (author.trim().length === 0) {
-        throw new BadRequestException("The author's name cannot be empty");
-      }
-    }
-
-    return props;
+    const errorMessage = z.prettifyError(result.error);
+    throw new BadRequestException(errorMessage);
   }
 }
