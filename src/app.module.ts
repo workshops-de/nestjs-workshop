@@ -12,6 +12,6 @@ import { RequestIdTracingMiddleware } from './request-id-tracing/request-id-trac
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIdTracingMiddleware).forRoutes('*');
+    consumer.apply(RequestIdTracingMiddleware).forRoutes('*splat');
   }
 }

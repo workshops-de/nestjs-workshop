@@ -1,14 +1,14 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { DomainException } from './domain.exception';
-import { Response } from 'express';
+import { FastifyReply } from 'fastify';
 
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
   catch(exception: DomainException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
+    const reply = ctx.getResponse<FastifyReply>();
 
-    response.status(HttpStatus.BAD_REQUEST).json({
+    reply.code(HttpStatus.BAD_REQUEST).send({
       reason: exception.message
     });
   }
