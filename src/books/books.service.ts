@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { EnvVariablesService } from '../configuration/env-variables.service';
 import { BookEntity } from './book/book.entity';
 import { DomainException } from './domain.exception';
 import { CreateBookDto } from './dtos/create-book.dto/create-book.dto';
@@ -17,6 +18,11 @@ export class BooksService {
       amount: 1000
     })
   ];
+
+  constructor(private envVariables: EnvVariablesService) {
+    console.log(this.envVariables.get('database_name'));
+    console.log(this.envVariables.get('database_server'));
+  }
 
   getAll(): Promise<BookEntity[]> {
     return Promise.resolve(this.bookCollection);

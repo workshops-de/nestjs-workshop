@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { BooksModule } from './books/books.module';
 import { RequestIdTracingModule } from './request-id-tracing/request-id-tracing.module';
 import { RequestIdTracingMiddleware } from './request-id-tracing/request-id-tracing-middleware.service';
+import { EnvVariablesModule } from './configuration/env-variables.module';
 
 @Module({
-  imports: [BooksModule, RequestIdTracingModule],
+  imports: [BooksModule, RequestIdTracingModule, EnvVariablesModule],
   controllers: [AppController],
   providers: [AppService]
 })
