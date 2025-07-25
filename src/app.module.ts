@@ -5,9 +5,29 @@ import { BooksModule } from './books/books.module';
 import { RequestIdTracingModule } from './request-id-tracing/request-id-tracing.module';
 import { RequestIdTracingMiddleware } from './request-id-tracing/request-id-tracing-middleware.service';
 import { EnvVariablesModule } from './configuration/env-variables.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EnvVariablesService } from './configuration/env-variables.service';
+import { HealthzModule } from './healthz/healthz.module';
 
 @Module({
-  imports: [BooksModule, RequestIdTracingModule, EnvVariablesModule],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useFactory: (envVariables: EnvVariablesService) => ({
+        type: 'postgres',
+        host: envVariables.get('database_server'),
+        port: envVariables.get('database_port'),
+        username: envVariables.get('database_username'),
+        password: envVariables.get('database_password'),
+        database: envVariables.get('database_name'),
+        entities: []
+      }),
+      inject: [EnvVariablesService]
+    }),
+    BooksModule,
+    RequestIdTracingModule,
+    EnvVariablesModule,
+    HealthzModule
+  ],
   controllers: [AppController],
   providers: [AppService]
 })
