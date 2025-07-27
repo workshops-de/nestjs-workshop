@@ -38,7 +38,7 @@ export class BooksController {
       throw new NotFoundException(`Book with id ${id} not found`);
     }
 
-    this.booksService.order(book, dto);
+    await this.booksService.order(book, dto);
   }
 
   @Put(':id/rate')
@@ -49,6 +49,6 @@ export class BooksController {
       throw new NotFoundException(`Book with id ${id} not found`);
     }
 
-    this.booksService.rate(book, dto);
+    await this.booksService.rate(book, dto);
   }
 }
