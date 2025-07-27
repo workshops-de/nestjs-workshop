@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityProperties } from '../../core/types/entity-properties';
+import { BookRatingEntity } from '../../book-ratings/book-rating.entity';
 
 @Entity('books')
 export class BookEntity {
@@ -26,6 +27,9 @@ export class BookEntity {
 
   @Column({ type: 'text', nullable: true })
   public thumbnail?: string;
+
+  @OneToMany(() => BookRatingEntity, bookRating => bookRating.book)
+  public ratings: BookRatingEntity[];
 
   constructor(props?: EntityProperties<BookEntity>) {
     if (!props) return;

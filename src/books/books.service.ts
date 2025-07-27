@@ -17,7 +17,7 @@ export class BooksService {
   }
 
   getAll(): Promise<BookEntity[]> {
-    return this.booksRepository.find();
+    return this.booksRepository.find({ relations: { ratings: true } });
   }
 
   getById(id: string): Promise<BookEntity | null> {

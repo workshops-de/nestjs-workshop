@@ -1,0 +1,23 @@
+meta {
+  name: create-book-rating
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/book-ratings/books/{{mostRecentBookId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "rating": 5
+  }
+}
+
+tests {
+  test("POST rating, should receive an ID", function () {
+    expect(res.getBody().id).to.a('string').that.is.not.empty;
+  });
+}
