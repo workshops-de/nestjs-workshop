@@ -8,6 +8,7 @@ import { EnvVariablesModule } from './configuration/env-variables.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvVariablesService } from './configuration/env-variables.service';
 import { HealthzModule } from './healthz/healthz.module';
+import { BookEntity } from './books/book/book.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { HealthzModule } from './healthz/healthz.module';
         username: envVariables.get('database_username'),
         password: envVariables.get('database_password'),
         database: envVariables.get('database_name'),
-        entities: []
+        entities: [BookEntity],
+        synchronize: false
       }),
       inject: [EnvVariablesService]
     }),
