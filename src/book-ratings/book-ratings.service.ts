@@ -12,16 +12,8 @@ export class BookRatingsService {
   ) {}
 
   async create(book: BookEntity, dto: { rating: number }): Promise<BookRatingEntity> {
-    if (dto.rating < 1 || dto.rating > 5) {
-      throw new DomainException(
-        `Rating discarded: The given rating ${dto.rating} does not fit in the range 1-5.`
-      );
-    }
+    const newRating = BookRatingEntity.create(book, dto.rating);
 
-    return this.bookRatingRepository.save({
-      book,
-      rating: dto.rating,
-      createdAt: new Date()
-    });
+    return this.bookRatingRepository.save(newRating);
   }
 }
