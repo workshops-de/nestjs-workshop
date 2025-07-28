@@ -7,7 +7,11 @@ export class EnvVariablesTestingService implements EnvironmentVariableProvider {
   get<TEnvKey extends keyof EnvVariables>(key: TEnvKey): EnvVariables[TEnvKey] {
     const envVar = this.environmentVariables[key];
 
-    if (!envVar) throw new Error(`Environment variable ${key} not found`);
+    // `if (!envVar)` is not possible here.
+    //  we allwo `false` to be a valid value.
+    if (envVar === undefined || envVar === null) {
+      throw new Error(`Expected env variable ${key} to be defined.`);
+    }
 
     return envVar;
   }

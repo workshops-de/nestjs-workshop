@@ -7,6 +7,12 @@ import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers
 
 import { EnvVariablesModule } from '../src/configuration/env-variables.module';
 import { EnvVariablesTestingModule } from './config/env-varibles-testing-module';
+import { CreateBookDto } from '../src/books/dtos/create-book.dto/create-book.dto';
+import { Repository } from 'typeorm';
+import { BookEntity } from '../src/books/book/book.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
+
+import * as request from 'supertest';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -44,5 +50,22 @@ describe('AppController (e2e)', () => {
     await postgreSqlContainer.stop();
   });
 
-  it('/books (POST), persists the new book', async () => {});
+  it('/books (POST), persists the new book', async () => {
+    const httpServer = app.getHttpServer();
+    const dto: CreateBookDto = {
+      isbn: '0-0-0-0-0-0',
+      title: 'TestContainers',
+      authors: ['Are', 'Incredible'],
+      price: 10_000,
+      amount: 100
+    };
+    const bookRepository = app.get<Repository<BookEntity>>(getRepositoryToken(BookEntity));
+
+    const response = await request(httpServer).post('/books').send(dto).expect(201);
+    const bookId = `${response.body.id}`;
+
+    const createdBook = await bookRepository.findOneBy({ id: bookId });
+
+    expect(createdBook).toMatchObject(dto);
+  });
 });
