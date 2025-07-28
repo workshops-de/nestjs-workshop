@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EnvVariables } from './env-variables';
+import { EnvironmentVariableProvider } from './environment-variable-provider';
 
 @Injectable()
-export class EnvVariablesService {
+export class EnvVariablesService implements EnvironmentVariableProvider {
   constructor(private readonly configService: ConfigService) {}
 
   get<TEnvKey extends keyof EnvVariables>(key: TEnvKey): EnvVariables[TEnvKey] {

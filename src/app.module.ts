@@ -23,7 +23,7 @@ import { BookRatingEntity } from './book-ratings/book-rating.entity';
         password: envVariables.get('database_password'),
         database: envVariables.get('database_name'),
         entities: [BookEntity, BookRatingEntity],
-        synchronize: false
+        synchronize: envVariables.get('database_synchronize_entity_models_with_database')
       }),
       inject: [EnvVariablesService]
     }),
