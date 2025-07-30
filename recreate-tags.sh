@@ -28,4 +28,3 @@ for line in $logs; do
   git push origin :$message
   git push origin $message
 done
-
